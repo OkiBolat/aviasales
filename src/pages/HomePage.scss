@@ -1,0 +1,15 @@
+.wrapper {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 245.81px 505px;
+  grid-template-areas:
+    "sidebar header"
+    "sidebar content"
+    "....... content";
+  background-color: #fff;
+  color: #444;
+  max-width: 772px;
+  width: 100%;
+  margin: 71px auto;
+  background:transparent;
+}
