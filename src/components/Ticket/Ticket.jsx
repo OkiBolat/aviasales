@@ -3,7 +3,6 @@ import logo from "../../assets/logo.png"
 import './Ticket.scss'
 
 function Ticket({ ticket }) {
-  console.log(ticket)
   return (
     <div className="ticket">
       <div className="ticket__header">

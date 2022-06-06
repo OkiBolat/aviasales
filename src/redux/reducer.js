@@ -25,17 +25,6 @@ const toolkitSlice = createSlice({
       } else {
         newState.filterParams.stops.push(Number(action.payload))
       }
-      if (state.filterParams.stops.length) {
-        newState.filteredTickets = state.tickets.filter((tick) => {
-          for (let val of state.filterParams.stops) {
-            if (val === tick.stops) {
-              return tick;
-            }
-          }
-        })
-      } else {
-        newState.filteredTickets = newState.tickets
-      }
     },
     setTicketsByChoice(state, action) {
       const newState = state;
