@@ -3,6 +3,10 @@ import logo from "../../assets/logo.png"
 import './Ticket.scss'
 
 function Ticket({ ticket }) {
+
+  const there = ticket.segments[0];
+  const back = ticket.segments[1]
+  
   return (
     <div className="ticket">
       <div className="ticket__header">
@@ -14,32 +18,32 @@ function Ticket({ ticket }) {
       <div className="ticket__main">
         <div className="ticket__destination">
           <div className="ticket__destination-there">
-          <p className="ticket__info">{ticket.destination} - {ticket.origin}</p>
-            <p>{ticket.departure_time} - {ticket.arrival_time}</p>
+          <p className="ticket__info">{there.destination} - {there.origin}</p>
+            <p>{there.departure_time} - {there.arrival_time}</p>
           </div>
           <div className="ticket__destination-back">
-          <p className="ticket__info">{ticket.origin} - {ticket.destination}</p>
-            <p>10:45 - 08:00</p>
+          <p className="ticket__info">{back.origin} - {back.destination}</p>
+            <p>{back.departure_time} - {back.arrival_time}</p>
           </div>
         </div>
         <div className="tikcet__duration">
           <div className="ticket__destination-there">
-            <p className="ticket__info">MOW - HKT</p>
-            <p>10:45 - 08:00</p>
+            <p className="ticket__info">В пути</p>
+            <p>{ticket.fullTimeThere.hours} ч {ticket.fullTimeThere.hours} м</p>
           </div>
           <div className="ticket__destination-back">
-          <p className="ticket__info">MOW - HKT</p>
-            <p>10:45 - 08:00</p>
+          <p className="ticket__info">В пути</p>
+            <p>{ticket.fullTimeBack.hours} ч {ticket.fullTimeBack.hours} м</p>
           </div>
         </div>
         <div className="ticket__stops">
           <div className="ticket__destination-there">
-          <p className="ticket__info">MOW - HKT</p>
-            <p>10:45 - 08:00</p>
+          <p className="ticket__info">Пересадки</p>
+            <p>{there.stops}</p>
           </div>
           <div className="ticket__destination-back">
-          <p className="ticket__info">MOW - HKT</p>
-            <p>10:45 - 08:00</p>
+          <p className="ticket__info">Пересадки</p>
+            <p>{back.stops}</p>
           </div>
         </div>
       </div>

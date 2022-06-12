@@ -1,9 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ticketsServices } from '../services/ticketsServices';
+import ticketsServices from '../services/ticketsServices';
 
 
-export const getTicketsThunk = createAsyncThunk('tickets/get', async () => {
-  const response = await ticketsServices.getTickets();
-  const data = await response.data;
+export const getTicketsThunk = createAsyncThunk('tickets/get', async (page) => {
+  const response = await ticketsServices.getTickets(page)
+  const { data } = response;
   return data;
 });
+

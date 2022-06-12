@@ -1,14 +1,19 @@
 import React, { useMemo } from "react";
-import { useSelector } from "react-redux";
-import Header from "../components/Header/Header";
+import { useDispatch, useSelector } from "react-redux";
+import { SORT_TYPE_OPTIONS } from "../constats";
+import Tabs from "../components/Tabs";
 import Main from "../components/Main/Main";
 import Sidebar from "../components/Sidebar/Sidebar";
-import './HomePage.scss'
+import './HomePage.scss';
+import { addOption } from "../redux/reducer";
 
 function HomePage() {
-  console.log('render');
+  const dispatch = useDispatch()
+
+  const sortType = useSelector((state) => state.tickets.sortType);
   const tickets = useSelector((state) => state.tickets.filteredTickets);
   const stops = useSelector((state) => state.tickets.filterParams.stops);
+  const isLoading = useSelector((state) => state.tickets.requestInProgress);
 
   const ticketsWithMemo = useMemo(() => {
     if (!stops.length) {
@@ -16,7 +21,7 @@ function HomePage() {
     }
     return tickets.filter((tick) => {
       for (let val of stops) {
-        if (val === tick.stops) {
+        if (val === tick.segments[0].stops) {
           return tick;
         }
       }
@@ -24,12 +29,16 @@ function HomePage() {
     });
   }, [tickets, stops]);
 
+  const setTab = ({ value }) => {
+    dispatch(addOption(value))
+  }
 
   return (
     <div className='wrapper'>
       <Sidebar />
-      <Header />
-      <Main tickets={ticketsWithMemo} />
+      <Tabs tabs={SORT_TYPE_OPTIONS} value={sortType} onChange={setTab} />
+      <Main tickets={ticketsWithMemo} isLoading={isLoading} />
+
     </div>
   )
 };

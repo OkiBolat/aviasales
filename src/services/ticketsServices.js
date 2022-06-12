@@ -1,8 +1,8 @@
 import instance from './instance';
 
-const getTickets = () => instance();
+const ticketsServices = {
+  getTickets : (pages) => instance(`?page=${pages}&limit=5`),
+}
 
 
-export const ticketsServices = {
-  getTickets,
-};
+export default ticketsServices;

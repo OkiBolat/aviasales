@@ -16,24 +16,28 @@
   :nth-child(3) {
     border-left: 1px solid #DFE5EC;
   }
+}
 
+.button {
+  border: none;
+  background-color: #ffff;
+  width: 100%;
+  padding: 15px 0;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #4A4A4A;
+  transition: 0.3s;
+  max-height: 48px;
+  
+  &.active {
+    background-color: #2196F3;
+    color: #fff;
+  }
 
-  &__button {
-    border: none;
-    background-color: #ffff;
-    width: 100%;
-    padding: 15px 0;
-    font-weight: 600;
-    font-size: 12px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: #4A4A4A;
-    transition: 0.3s;
-
-
-    &:hover {
-      background-color: #2196F3;
-      color: #ffff;
-    }
+  &:hover {
+    background-color: #2196F3;
+    color: #ffff;
   }
 }

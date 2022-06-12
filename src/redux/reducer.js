@@ -1,4 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { SORT_TYPE } from '../constats';
+import flightTimeCalculation from '../helpers/function/flightTimeCalculation';
 import { getTicketsThunk } from './actions';
 
 const toolkitSlice = createSlice({
@@ -10,38 +12,50 @@ const toolkitSlice = createSlice({
     },
     tickets: [],
     filteredTickets: [],
+    sortType: null,
     requestInProgress: false,
   },
   reducers: {
-    setTickets(state, action) {
-      const newState = state;
-      newState.tickets = [...action.payload]
-      newState.filteredTickets = [...action.payload];
-    },
     setTicketsByStops(state, action) {
       const newState = state;
-      if(newState.filterParams.stops.includes(Number(action.payload))) {
+      if (newState.filterParams.stops.includes(Number(action.payload))) {
         newState.filterParams.stops = newState.filterParams.stops.filter(val => val !== Number(action.payload))
       } else {
         newState.filterParams.stops.push(Number(action.payload))
       }
     },
-    setTicketsByChoice(state, action) {
-      const newState = state;
-      newState.filterParams.choice = action.payload
-      newState.filteredTickets.sort((a, b) => a.price - b.price)
+    addOption(state, action) {
+      switch (action.payload) {
+        case state.sortType:
+          state.sortType = null;
+          state.filteredTickets = state.tickets;
+          return;
+        case SORT_TYPE.FAST:
+          state.filteredTickets = state.tickets.sort((a, b) => a.fullTimeThere.hours - b.fullTimeThere.hours);
+          break;
+        case SORT_TYPE.CHEAP:
+          state.filteredTickets = state.filteredTickets.sort((a, b) => a.price - b.price);
+          break;
+        case SORT_TYPE.OPTIMAL:
+          state.filteredTickets = state.filteredTickets.sort((a, b) => a.price - b.price);
+          break;
+        default:
+        state.filteredTickets = state.tickets;
+        state.sortType = null;
+      }
+
+      state.sortType = action.payload;
     }
+
   },
   extraReducers: {
     [getTicketsThunk.pending]: (state) => {
-      const newState = state;
-      newState.requestInProgress = true;
+      state.requestInProgress = true;
     },
     [getTicketsThunk.fulfilled]: (state, action) => {
-      const newState = state;
-      newState.tickets = action.payload;
-      newState.filteredTickets = action.payload;
-      newState.requestInProgress = false;
+      state.tickets = [...state.tickets, ...flightTimeCalculation(action.payload)];
+      state.filteredTickets = state.tickets;
+      state.requestInProgress = false;
     },
     [getTicketsThunk.rejected]: () => {
       console.error('Not response');
@@ -50,6 +64,6 @@ const toolkitSlice = createSlice({
 });
 
 
-export const { setTickets, setTicketsByStops } = toolkitSlice.actions;
+export const { setTickets, setTicketsByStops, addOption } = toolkitSlice.actions;
 
 export default toolkitSlice.reducer;

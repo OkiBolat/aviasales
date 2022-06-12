@@ -1,9 +1,4 @@
 export const filterConstant = {
-  "Все":{
-    val: '',
-    name: 'Все',
-    isActive: false
-  },
   "Без пересадок": {
     val: 0,
     name: 'Без пересадок',
