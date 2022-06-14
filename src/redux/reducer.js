@@ -19,9 +19,13 @@ const toolkitSlice = createSlice({
     setTicketsByStops(state, action) {
       const newState = state;
       if (newState.filterParams.stops.includes(Number(action.payload))) {
-        newState.filterParams.stops = newState.filterParams.stops.filter(val => val !== Number(action.payload))
+        newState.filterParams.stops = newState.filterParams
+          .stops.filter((val) => val !== Number(action.payload));
+      }
+      if (action.payload === null) {
+        newState.filterParams = [];
       } else {
-        newState.filterParams.stops.push(Number(action.payload))
+        newState.filterParams.stops.push(Number(action.payload));
       }
     },
     addOption(state, action) {
@@ -31,7 +35,8 @@ const toolkitSlice = createSlice({
           state.filteredTickets = state.tickets;
           return;
         case SORT_TYPE.FAST:
-          state.filteredTickets = state.tickets.sort((a, b) => a.fullTimeThere.hours - b.fullTimeThere.hours);
+          state.filteredTickets = state.tickets
+            .sort((a, b) => a.fullTimeThere.hours - b.fullTimeThere.hours);
           break;
         case SORT_TYPE.CHEAP:
           state.filteredTickets = state.filteredTickets.sort((a, b) => a.price - b.price);
@@ -40,12 +45,12 @@ const toolkitSlice = createSlice({
           state.filteredTickets = state.filteredTickets.sort((a, b) => a.price - b.price);
           break;
         default:
-        state.filteredTickets = state.tickets;
-        state.sortType = null;
+          state.filteredTickets = state.tickets;
+          state.sortType = null;
       }
 
       state.sortType = action.payload;
-    }
+    },
 
   },
   extraReducers: {
@@ -58,11 +63,11 @@ const toolkitSlice = createSlice({
       state.requestInProgress = false;
     },
     [getTicketsThunk.rejected]: () => {
+      // eslint-disable-next-line no-console
       console.error('Not response');
     },
   },
 });
-
 
 export const { setTickets, setTicketsByStops, addOption } = toolkitSlice.actions;
 
